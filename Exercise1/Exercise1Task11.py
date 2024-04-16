@@ -1,8 +1,9 @@
 import pandas as pd
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
-plt.rcParams.update({'font.size': 8})
+import matplotlib.dates as mdates
 
+dates = pd.date_range(start='2008-1-1', end='2008-7-1')
 
 # Load data from Excel file
 df = pd.read_excel('Exercise1Data.xlsx')
@@ -49,24 +50,25 @@ results2 = model2.fit()
 
 
 # Plot for Model 1
-plt.figure(figsize=(16, 6))
-plt.subplot(1, 2, 1)
-plt.scatter(df['Temp'], Y, label='Data')
-plt.plot(df['Temp'], results1.fittedvalues, color='red', label='OLS')
-plt.xlabel('Temp')
-plt.ylabel('Demand')
-plt.title('Model 1: Demand vs Temp')
-plt.legend()
+# plt.figure(figsize=(16, 6))
+# plt.subplot(1, 2, 1)
+# plt.scatter(df['Temp'], Y, label='Data')
+# plt.plot(df['Temp'], results1.fittedvalues, color='red', label='OLS')
+# plt.xlabel('Temp')
+# plt.ylabel('Demand')
+# plt.title('Model 1: Demand vs Temp')
+# plt.legend()
 
 # Plot for Model 2
 # Since Model 2 is a multiple regression model, we can't plot it on a 2D plot.
-# We can plot the actual vs predicted values instead.
-plt.subplot(1, 2, 2)
-plt.scatter(Y, results2.fittedvalues)
-plt.plot([Y.min(), Y.max()], [Y.min(), Y.max()], color='red')
-plt.xlabel('Actual')
-plt.ylabel('Predicted')
-plt.title('Model 2: Actual vs Predicted Demand')
+# We can plot the demand vs temperature instead.
+# plt.subplot(1, 2, 2)
+# plt.scatter(df['Temp'], Y, label='Data')
+# plt.plot(df['Temp'], results2.fittedvalues, color='red', label='OLS')
+# plt.xlabel('Temperature')
+# plt.ylabel('Demand')
+# plt.title('Model 2: Demand vs Temperature')
+# plt.legend()
 
 # plt.tight_layout()
 # plt.show()
@@ -91,15 +93,18 @@ plt.subplot(2, 2, 1)
 plt.plot(WinterWeek.index, Y_WinterWeek, label='Actual')
 plt.plot(WinterWeek.index, predictions1_WinterWeek, color='red', label='Predicted')
 plt.xlabel('Date')
-plt.ylabel('Demand')
+plt.ylabel('Demand (MW)')
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%d'))
+plt.gca().xaxis.set_major_locator(mdates.DayLocator())
 plt.title('Model 1: Winter Week')
+
 plt.legend()
 
 plt.subplot(2, 2, 2)
 plt.plot(SummerWeek.index, Y_SummerWeek, label='Actual')
 plt.plot(SummerWeek.index, predictions1_SummerWeek, color='red', label='Predicted')
 plt.xlabel('Date')
-plt.ylabel('Demand')
+plt.ylabel('Demand (MW)')
 plt.title('Model 1: Summer Week')
 plt.legend()
 
@@ -122,7 +127,7 @@ plt.subplot(2, 2, 3)
 plt.plot(WinterWeek.index, Y_WinterWeek, label='Actual')
 plt.plot(WinterWeek.index, predictions2_WinterWeek, color='red', label='Predicted')
 plt.xlabel('Date')
-plt.ylabel('Demand')
+plt.ylabel('Demand (MW)')
 plt.title('Model 2: Winter Week')
 plt.legend()
 
@@ -130,7 +135,7 @@ plt.subplot(2, 2, 4)
 plt.plot(SummerWeek.index, Y_SummerWeek, label='Actual')
 plt.plot(SummerWeek.index, predictions2_SummerWeek, color='red', label='Predicted')
 plt.xlabel('Date')
-plt.ylabel('Demand')
+plt.ylabel('Demand (MW)')
 plt.title('Model 2: Summer Week')
 plt.legend()
 
@@ -142,38 +147,38 @@ plt.legend()
 
 # Temperature vs Demand
 
-plt.figure(figsize=(16, 6))
-plt.subplot(2, 2, 1)
-plt.plot(WinterWeek.index, WinterWeek['Temp'], label='Temperature')
-plt.plot(WinterWeek.index, predictions1_WinterWeek, color='red', label='Demand')
-plt.xlabel('Date')
-plt.ylabel('Demand')
-plt.title('Model 1: Winter Week')
-plt.legend()
+# plt.figure(figsize=(16, 6))
+# plt.subplot(2, 2, 1)
+# plt.plot(WinterWeek.index, WinterWeek['Temp'], label='Temperature')
+# plt.plot(WinterWeek.index, predictions1_WinterWeek, color='red', label='Demand')
+# plt.xlabel('Date')
+# plt.ylabel('Demand')
+# plt.title('Model 1: Winter Week')
+# plt.legend()
 
-plt.subplot(2, 2, 2)
-plt.plot(SummerWeek.index, SummerWeek['Temp'], label='Temperature')
-plt.plot(SummerWeek.index, predictions1_SummerWeek, color='red', label='Demand')
-plt.xlabel('Date')
-plt.ylabel('Demand')
-plt.title('Model 1: Summer Week')
-plt.legend()
+# plt.subplot(2, 2, 2)
+# plt.plot(SummerWeek.index, SummerWeek['Temp'], label='Temperature')
+# plt.plot(SummerWeek.index, predictions1_SummerWeek, color='red', label='Demand')
+# plt.xlabel('Date')
+# plt.ylabel('Demand')
+# plt.title('Model 1: Summer Week')
+# plt.legend()
 
-plt.subplot(2, 2, 3)
-plt.plot(WinterWeek.index, WinterWeek['Temp'], label='Temperature')
-plt.plot(WinterWeek.index, predictions2_WinterWeek, color='red', label='Demand')
-plt.xlabel('Date')
-plt.ylabel('Demand')
-plt.title('Model 2: Winter Week')
-plt.legend()
+# plt.subplot(2, 2, 3)
+# plt.plot(WinterWeek.index, WinterWeek['Temp'], label='Temperature')
+# plt.plot(WinterWeek.index, predictions2_WinterWeek, color='red', label='Demand')
+# plt.xlabel('Date')
+# plt.ylabel('Demand')
+# plt.title('Model 2: Winter Week')
+# plt.legend()
 
-plt.subplot(2, 2, 4)
-plt.plot(SummerWeek.index, SummerWeek['Temp'], label='Temperature')
-plt.plot(SummerWeek.index, predictions2_SummerWeek, color='red', label='Demand')
-plt.xlabel('Date')
-plt.ylabel('Demand')
-plt.title('Model 2: Summer Week')
-plt.legend()
+# plt.subplot(2, 2, 4)
+# plt.plot(SummerWeek.index, SummerWeek['Temp'], label='Temperature')
+# plt.plot(SummerWeek.index, predictions2_SummerWeek, color='red', label='Demand')
+# plt.xlabel('Date')
+# plt.ylabel('Demand')
+# plt.title('Model 2: Summer Week')
+# plt.legend()
 
 
 # plt.tight_layout()
@@ -232,6 +237,38 @@ plt.plot(hours, beta_1_values, marker='o', color='red')
 plt.xlabel('Hour of the Day')
 plt.ylabel('Beta_1 (Temperature)')
 plt.title('Temperature Coefficient for Each Hour of the Day')
+plt.grid(True)
+
+plt.tight_layout()
+
+plt.rcParams.update({'font.size': 6})
+
+plt.figure(figsize=(16, 10))
+plt.subplot(1, 2, 1)
+df['Time'] = pd.to_datetime(df['Time'])
+df = df.set_index('Time')
+
+# Filter dataframe to only include rows at 7 AM
+df_7am = df.between_time('07:00', '07:59')
+ModeledDemand7 = beta_0_values[6] + beta_1_values[6] * df_7am['Temp']
+# Plot demand at 7 AM for each day
+plt.plot(df_7am.index, df_7am['Demand'], color='blue')
+plt.plot(ModeledDemand7, color='red', linestyle='--')
+plt.xlabel('Date')
+plt.ylabel('Demand')
+plt.title('Demand at 7 AM for Each Day')
+plt.grid(True)
+
+plt.subplot(1, 2, 2)
+# Filter dataframe to only include rows at 23:00
+df_23pm = df.between_time('23:00', '23:59')
+ModeledDemand23= beta_0_values[22]+beta_1_values[22]*df_23pm['Temp']
+# Plot demand at 23:00 for each day
+plt.plot(df_23pm.index, df_23pm['Demand'], color='blue')
+plt.plot(ModeledDemand23, color='red', linestyle='--')
+plt.xlabel('Date')
+plt.ylabel('Demand')
+plt.title('Demand at 23:00 for Each Day')
 plt.grid(True)
 
 plt.tight_layout()
