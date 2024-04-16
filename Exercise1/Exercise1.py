@@ -176,5 +176,63 @@ plt.title('Model 2: Summer Week')
 plt.legend()
 
 
+# plt.tight_layout()
+# plt.show()
+
+# Model 3
+
+hours = df['Hour'].unique()
+
+# Create a dictionary to store the results for each hour
+results = {}
+
+for hour in hours:
+    # Filter the data for the current hour
+    df_hour = df[df['Hour'] == hour]
+
+    # Define the dependent variable
+    Y = df_hour['Demand']
+
+    # Define the independent variables
+    X = df_hour[['Temp']]
+    X = sm.add_constant(X)
+
+    # Run the regression
+    model = sm.OLS(Y, X)
+    results[hour] = model.fit()
+
+# Create lists to store the values for Beta_0 and Beta_1
+beta_0_values = []
+beta_1_values = []
+
+# Get the values for Beta_0 and Beta_1 from the results
+for hour, result in results.items():
+    beta_0_values.append(result.params.const)
+    beta_1_values.append(result.params.Temp)
+
+beta_0_values.pop()
+beta_1_values.pop()
+
+# Create a list of hours
+hours = list(results.keys())
+hours.pop()
+
+# Plot Beta_0
+plt.figure(figsize=(16, 5))
+plt.subplot(1, 2, 1)
+plt.plot(hours, beta_0_values, marker='o')
+plt.xlabel('Hour of the Day')
+plt.ylabel('Beta_0 (Intercept)')
+plt.title('Intercept for Each Hour of the Day')
+plt.grid(True)
+
+# Plot Beta_1
+plt.subplot(1, 2, 2)
+plt.plot(hours, beta_1_values, marker='o', color='red')
+plt.xlabel('Hour of the Day')
+plt.ylabel('Beta_1 (Temperature)')
+plt.title('Temperature Coefficient for Each Hour of the Day')
+plt.grid(True)
+
 plt.tight_layout()
 plt.show()
